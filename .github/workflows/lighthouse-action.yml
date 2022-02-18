@@ -2,14 +2,14 @@ name: CI
 on: [push]
 jobs:
   lhci:
-    name: Lighthouse CI
+    name: Lighthouse CI - testing1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use note.js 10.x 
-        uses: actions/steup-node@v1
+      - name: Use node.js 10.x 
+        uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 16.x
       - name: npm install, build
         run: |
           yarn 
@@ -18,3 +18,5 @@ jobs:
         run: |
           npm install -g @lhci/cli@0.3.x 
           lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
+        env: 
+          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
